@@ -14,7 +14,10 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "http://localhost:3000",
+      "https://master--telegrambot322.netlify.app",
+    ],
   })
 );
 
@@ -69,11 +72,15 @@ app.get("/", (req, res) => {
   res.send("Express on Vercel");
 });
 
+app.get("/check-connection", (req, res) => {
+  res.send({ data: "OK" });
+});
+
 app.post("/web-data", async (req, res) => {
   try {
     const { queryId, products, totalPrice } = req.body;
 
-    console.log(req.body)
+    console.log(req.body);
     await bot.answerWebAppQuery(queryId, {
       type: "article",
       id: queryId,
