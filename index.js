@@ -64,11 +64,16 @@ bot.on("message", async (msg) => {
   }
 });
 
-app.get("/", (req, res) => res.send("Express on Vercel"));
+app.get("/", (req, res) => {
+  console.log("Root route accessed");
+  res.send("Express on Vercel");
+});
 
 app.post("/web-data", async (req, res) => {
-  const { queryId, products, totalPrice } = req.body;
   try {
+    const { queryId, products, totalPrice } = req.body;
+
+    console.log(req.body)
     await bot.answerWebAppQuery(queryId, {
       type: "article",
       id: queryId,
@@ -92,6 +97,6 @@ app.post("/web-data", async (req, res) => {
   }
 });
 
-const PORT = 800;
+const PORT = 8000;
 
 app.listen(PORT, () => console.log("server started at port " + 8000));
