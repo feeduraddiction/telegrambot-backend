@@ -71,7 +71,7 @@ app.post("/web-data", async (req, res) => {
           "Поздравляю с покупкой, приобретен товар на сумму " + totalPrice,
       },
     });
-    return res.status(200).json({})
+    return res.status(200).json({ status: "OK" });
   } catch (e) {
     await bot.answerWebAppQuery(queryId, {
       type: "article",
@@ -81,7 +81,7 @@ app.post("/web-data", async (req, res) => {
         message_text: "Не удалось приобрести товар",
       },
     });
-    return res.status(500)
+    return res.status(500);
   }
 });
 
