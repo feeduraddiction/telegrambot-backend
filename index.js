@@ -96,6 +96,8 @@ app.post("/web-data", async (req, res) => {
     await bot.sendInvoice(queryId, "hello");
     return res.status(200).json({ status: "OK" });
   } catch (e) {
+    const { queryId } = req.body;
+
     await bot.answerWebAppQuery(queryId, {
       type: "article",
       id: queryId,
