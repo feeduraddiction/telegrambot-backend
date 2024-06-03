@@ -92,7 +92,7 @@ app.post("/web-data", async (req, res) => {
     });
 
     console.log(query);
-    // await bot.sendInvoice(query.from.chatId);
+    await bot.sendInvoice(queryId, "hello");
     return res.status(200).json({ status: "OK" });
   } catch (e) {
     await bot.answerWebAppQuery(queryId, {
