@@ -81,14 +81,11 @@ app.post("/web-data", async (req, res) => {
   try {
     const { queryId, products, totalPrice, chatId } = req.body;
 
-    const title = "Заказ";
-    const description =
-      products.length > 1
-        ? products.map((item) => item.title).join(", ")
-        : products[0].title;
+    const title = "Test Product";
+    const description = "A description for the test product.";
     const payload = "Custom-Payload";
     const currency = "USD";
-    const prices = [{ label: "Products", amount: totalPrice * 100 }];
+    const prices = [{ label: "Test Product", amount: 1000 }];
     const invoiceResponse = await bot.sendInvoice(
       chatId,
       title,
@@ -96,7 +93,7 @@ app.post("/web-data", async (req, res) => {
       payload,
       PAYMENT_PROVIDER_TOKEN,
       currency,
-      prices
+      prices,
     );
 
     return res.status(200).json({ status: "OK" });
