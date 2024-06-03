@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 const token = "7061584216:AAHFHLH9kGT33IxRlkaSKWVeoQtaCkZtn4M";
-const PAYMENT_PROVIDER_TOKEN = '284685063:TEST:YzVhZmYzNDllMGYz';
+const PAYMENT_PROVIDER_TOKEN = "284685063:TEST:YzVhZmYzNDllMGYz";
 const webAppUrl = "https://master--telegrambot322.netlify.app";
 
 const bot = new TelegramBot(token, { polling: true });
@@ -74,14 +74,13 @@ app.get("/", (req, res) => {
 
 app.get("/check-connection", (req, res) => {
   res.send({ data: "OK" });
-  console.log('ok')
+  console.log("ok");
 });
 
 app.post("/web-data", async (req, res) => {
   try {
     const { queryId, products, totalPrice, chatId } = req.body;
-
-    const query = await bot.answerWebAppQuery(queryId, {
+    await bot.answerWebAppQuery(queryId, {
       type: "article",
       id: queryId,
       title: "Успешная покупка",
@@ -96,8 +95,18 @@ app.post("/web-data", async (req, res) => {
     const description = "A description for the test product.";
     const payload = "Custom-Payload";
     const currency = "USD";
-    const prices = [{ label: "Test Product", amount: 1000 }]; // 1000 means $10.00
-    await bot.sendInvoice(chatId, title, description, payload, PAYMENT_PROVIDER_TOKEN, currency, prices);
+    const prices = [{ label: "Test Product", amount: 1000 }];
+    const invoiceResponse = await bot.sendInvoice(
+      chatId,
+      title,
+      description,
+      payload,
+      PAYMENT_PROVIDER_TOKEN,
+      currency,
+      prices
+    );
+
+    await bot.sendMessage(chatId, invoiceResponse.chat.id);
     return res.status(200).json({ status: "OK" });
   } catch (e) {
     const { queryId } = req.body;
