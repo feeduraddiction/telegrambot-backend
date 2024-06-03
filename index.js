@@ -51,6 +51,10 @@ bot.on("message", async (msg) => {
     });
   }
 
+  if (text === "/pay") {
+    await bot.sendInvoice(chatId, "invoice", "you have bought");
+  }
+
   if (msg.web_app_data?.data) {
     try {
       const data = JSON.parse(msg?.web_app_data?.data);
@@ -90,6 +94,8 @@ app.post("/web-data", async (req, res) => {
           "Поздравляю с покупкой, приобретен товар на сумму " + totalPrice,
       },
     });
+
+    bot.sendMessage("/invoice");
 
     console.log(query);
     await bot.sendInvoice(queryId, "hello");
