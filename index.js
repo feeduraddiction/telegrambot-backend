@@ -51,7 +51,7 @@ bot.on("message", async (msg) => {
     });
   }
 
-  if (text === "/pay") {
+  if (text === "/invoice") {
     await bot.sendInvoice(chatId, "invoice", "you have bought");
   }
 
