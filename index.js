@@ -80,14 +80,6 @@ app.get("/check-connection", (req, res) => {
 app.post("/web-data", async (req, res) => {
   try {
     const { queryId, products, totalPrice, chatId } = req.body;
-    await bot.answerWebAppQuery(queryId, {
-      type: "article",
-      id: queryId,
-      title: "Заказ принят",
-      input_message_content: {
-        message_text: "Заказ принят" + totalPrice,
-      },
-    });
 
     const title = "Заказ";
     const description =
