@@ -97,7 +97,7 @@ app.post("/web-data", async (req, res) => {
     const payload = "Custom-Payload";
     const currency = "USD";
     const prices = [{ label: "Test Product", amount: 1000 }]; // 1000 means $10.00
-    await bot.sendInvoice(chatId, title, description, payload, PAYMENT_PROVIDER_TOKEN, 'test-invoice', currency, prices);
+    await bot.sendInvoice(chatId, title, description, payload, PAYMENT_PROVIDER_TOKEN, currency, prices);
     return res.status(200).json({ status: "OK" });
   } catch (e) {
     const { queryId } = req.body;
