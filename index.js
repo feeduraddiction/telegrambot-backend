@@ -110,15 +110,17 @@ app.post("/web-data", async (req, res) => {
   } catch (e) {
     const { queryId } = req.body;
 
-    await bot.answerWebAppQuery(queryId, {
-      type: "article",
-      id: queryId,
-      title: "Не удалось совершить покупку",
-      input_message_content: {
-        message_text: "Не удалось приобрести товар",
-      },
-    });
-    return res.status(500);
+    console.log(e);
+
+    // await bot.answerWebAppQuery(queryId, {
+    //   type: "article",
+    //   id: queryId,
+    //   title: "Не удалось совершить покупку",
+    //   input_message_content: {
+    //     message_text: "Не удалось приобрести товар",
+    //   },
+    // });
+    // return res.status(500);
   }
 });
 
