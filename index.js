@@ -25,7 +25,7 @@ bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   const text = msg.text;
 
-  console.log(text);
+  console.log(msg);
 
   if (text === "/huesos") {
     bot.sendMessage(chatId, "( . )( . )");
@@ -51,14 +51,10 @@ bot.on("message", async (msg) => {
     });
   }
 
-  if (text === "/invoice") {
-    await bot.sendInvoice(chatId, "invoice", "you have bought");
-  }
-
   if (msg.web_app_data?.data) {
     try {
       const data = JSON.parse(msg?.web_app_data?.data);
-      console.log(data);
+      console.log("be", data);
       await bot.sendMessage(chatId, "Спасибо за информацию");
       await bot.sendMessage(chatId, "Ваша страна: " + data?.country);
       await bot.sendMessage(chatId, "Ваша город: " + data?.city);
@@ -84,7 +80,6 @@ app.post("/web-data", async (req, res) => {
   try {
     const { queryId, products, totalPrice } = req.body;
 
-    console.log(req.body);
     const query = await bot.answerWebAppQuery(queryId, {
       type: "article",
       id: queryId,
@@ -95,7 +90,7 @@ app.post("/web-data", async (req, res) => {
       },
     });
 
-    bot.sendMessage("/invoice");
+    bot.sendInvoice(queryId, "title", "description", "payload");
 
     console.log(query);
     await bot.sendInvoice(queryId, "hello");
