@@ -80,21 +80,23 @@ app.get("/check-connection", (req, res) => {
 app.post("/web-data", async (req, res) => {
   try {
     const { queryId, products, totalPrice, chatId } = req.body;
-    // await bot.answerWebAppQuery(queryId, {
-    //   type: "article",
-    //   id: queryId,
-    //   title: "Успешная покупка",
-    //   input_message_content: {
-    //     message_text:
-    //       "Поздравляю с покупкой, приобретен товар на сумму " + totalPrice,
-    //   },
-    // });
+    await bot.answerWebAppQuery(queryId, {
+      type: "article",
+      id: queryId,
+      title: "Заказ принят",
+      input_message_content: {
+        message_text: "Заказ принят" + totalPrice,
+      },
+    });
 
-    const title = "Test Product";
-    const description = "A description for the test product.";
+    const title = "Заказ";
+    const description =
+      products.length > 1
+        ? products.map((item) => item.title).join(", ")
+        : products[0].title;
     const payload = "Custom-Payload";
     const currency = "USD";
-    const prices = [{ label: "Test Product", amount: 1000 }];
+    const prices = [{ label: "Products", amount: totalPrice * 100 }];
     const invoiceResponse = await bot.sendInvoice(
       chatId,
       title,
@@ -105,22 +107,19 @@ app.post("/web-data", async (req, res) => {
       prices
     );
 
-    await bot.sendMessage(chatId, invoiceResponse.chat.id);
     return res.status(200).json({ status: "OK" });
   } catch (e) {
     const { queryId } = req.body;
 
-    console.log(e);
-
-    // await bot.answerWebAppQuery(queryId, {
-    //   type: "article",
-    //   id: queryId,
-    //   title: "Не удалось совершить покупку",
-    //   input_message_content: {
-    //     message_text: "Не удалось приобрести товар",
-    //   },
-    // });
-    // return res.status(500);
+    await bot.answerWebAppQuery(queryId, {
+      type: "article",
+      id: queryId,
+      title: "Не удалось совершить покупку",
+      input_message_content: {
+        message_text: "Не удалось приобрести товар",
+      },
+    });
+    return res.status(500);
   }
 });
 
