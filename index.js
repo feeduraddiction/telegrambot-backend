@@ -94,7 +94,7 @@ app.post("/web-data", async (req, res) => {
     const description = products.map((item) => item.title).join(", ");
     const payload = "Custom-Payload";
     const currency = "USD";
-    const prices = [{ label: "Test Product", amount: 1000 }];
+    const prices = [{ label: "Test Product", amount: totalPrice }];
     const invoiceResponse = await bot.sendInvoice(
       chatId,
       title,
