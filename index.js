@@ -91,7 +91,7 @@ app.post("/web-data", async (req, res) => {
     });
 
     const title = "Test Product";
-    const description = "A description for the test product.";
+    const description = products.map((item) => item.title).join(", ");
     const payload = "Custom-Payload";
     const currency = "USD";
     const prices = [{ label: "Test Product", amount: 1000 }];
