@@ -81,7 +81,7 @@ app.post("/web-data", async (req, res) => {
     const { queryId, products, totalPrice } = req.body;
 
     console.log(req.body);
-    await bot.answerWebAppQuery(queryId, {
+    const query = await bot.answerWebAppQuery(queryId, {
       type: "article",
       id: queryId,
       title: "Успешная покупка",
@@ -90,6 +90,9 @@ app.post("/web-data", async (req, res) => {
           "Поздравляю с покупкой, приобретен товар на сумму " + totalPrice,
       },
     });
+
+    console.log(query);
+    // await bot.sendInvoice(query.from.chatId);
     return res.status(200).json({ status: "OK" });
   } catch (e) {
     await bot.answerWebAppQuery(queryId, {
