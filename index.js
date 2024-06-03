@@ -81,6 +81,15 @@ app.post("/web-data", async (req, res) => {
   try {
     const { queryId, products, totalPrice, chatId } = req.body;
 
+    await bot.answerWebAppQuery(queryId, {
+      type: "article",
+      id: queryId,
+      title: "Order prepared",
+      input_message_content: {
+        message_text: "Заказ готовится",
+      },
+    });
+
     const title = "Test Product";
     const description = "A description for the test product.";
     const payload = "Custom-Payload";
@@ -93,12 +102,12 @@ app.post("/web-data", async (req, res) => {
       payload,
       PAYMENT_PROVIDER_TOKEN,
       currency,
-      prices,
+      prices
     );
 
     return res.status(200).json({ status: "OK" });
   } catch (e) {
-    console.log(e)
+    console.log(e);
     // const { queryId } = req.body;
 
     // await bot.answerWebAppQuery(queryId, {
