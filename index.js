@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 const token = "7061584216:AAHFHLH9kGT33IxRlkaSKWVeoQtaCkZtn4M";
-const PAYMENT_PROVIDER_TOKEN = "284685063:TEST:YzVhZmYzNDllMGYz";
+const PAYMENT_PROVIDER_TOKEN = "284685063:TEST:NTRhNGNiYjA5M2Nk";
 const webAppUrl = "https://master--telegrambot322.netlify.app";
 
 const bot = new TelegramBot(token, { polling: true });
@@ -67,13 +67,19 @@ bot.on("message", async (msg) => {
   }
 });
 
-bot.on("pre_checkout_query", (query) => {
-  if (isValidPayment(query)) {
-    console.log(success)
-    bot.answerPreCheckoutQuery(query.id, true);
-  } else {
-    bot.answerPreCheckoutQuery(query.id, false, "Payment validation failed");
-  }
+bot.on('pre_checkout_query', (query) => {
+  bot.answerPreCheckoutQuery(query.id, true)
+    .then(() => {
+      console.log(query)
+    })
+    .catch((error) => {
+      console.error('Error answering pre-checkout query:', error);
+      bot.answerPreCheckoutQuery(query.id, false, 'Payment validation failed');
+    });
+});
+
+bot.on('successful_payment', (msg) => {
+  bot.sendMessage(msg.chat.id, 'Thank you for your payment!');
 });
 
 function isValidPayment(query) {
