@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 
 const token = "7061584216:AAHFHLH9kGT33IxRlkaSKWVeoQtaCkZtn4M";
-const PAYMENT_PROVIDER_TOKEN = "284685063:TEST:NTRhNGNiYjA5M2Nk";
+const PAYMENT_PROVIDER_TOKEN = "284685063:TEST:OGM5ZmRmZmI4Y2I3";
 const webAppUrl = "https://master--telegrambot322.netlify.app";
 
 const bot = new TelegramBot(token, { polling: true });
