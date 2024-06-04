@@ -67,6 +67,20 @@ bot.on("message", async (msg) => {
   }
 });
 
+bot.on("pre_checkout_query", (query) => {
+  if (isValidPayment(query)) {
+    console.log(success)
+    bot.answerPreCheckoutQuery(query.id, true);
+  } else {
+    bot.answerPreCheckoutQuery(query.id, false, "Payment validation failed");
+  }
+});
+
+function isValidPayment(query) {
+  console.log(query);
+  return true;
+}
+
 app.get("/", (req, res) => {
   console.log("Root route accessed");
   res.send("Express on Vercel");
@@ -108,17 +122,17 @@ app.post("/web-data", async (req, res) => {
     return res.status(200).json({ status: "OK" });
   } catch (e) {
     console.log(e);
-    // const { queryId } = req.body;
+    const { queryId } = req.body;
 
-    // await bot.answerWebAppQuery(queryId, {
-    //   type: "article",
-    //   id: queryId,
-    //   title: "Не удалось совершить покупку",
-    //   input_message_content: {
-    //     message_text: "Не удалось приобрести товар",
-    //   },
-    // });
-    // return res.status(500);
+    await bot.answerWebAppQuery(queryId, {
+      type: "article",
+      id: queryId,
+      title: "Не удалось совершить покупку",
+      input_message_content: {
+        message_text: "Не удалось приобрести товар",
+      },
+    });
+    return res.status(500);
   }
 });
 
